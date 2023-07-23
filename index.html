@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>SSE Logs Viewer</title>
+    </head>
+    <body>
+        <h1>SSE Logs Viewer</h1>
+        <div id="logs"></div>
+
+        <script>
+        function handleLogEvent(event) {
+            const logsDiv = document.getElementById('logs');
+            logsDiv.innerHTML += event.data + '<br>';
+        }
+        const eventSource = new EventSource('/sse-server');
+        eventSource.onmessage = handleLogEvent;
+        eventSource.onerror = function (event) {
+            console.error('SSE failed:', event);
+            eventSource.close();
+        };
+    </script>
+    </body>
+</html>
